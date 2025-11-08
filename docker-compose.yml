@@ -1,0 +1,19 @@
+services:
+  frontend:
+    image: registry.naulak.dev/bookstore/frontend:latest
+    build: ./frontend
+    ports:
+      - 8080:3000
+    environment:
+      - STORAGE_TYPE=database
+      - BACKEND_BASE_URL=http://backend:3000
+      - NODE_ENV=production
+    depends_on:
+      - backend
+  
+  backend:
+    image: registry.naulak.dev/bookstore/backend:latest
+    build: ./backend
+    environment:
+      - PORT=3000
+      - MONGODB_URI=${MONGODB_URI}

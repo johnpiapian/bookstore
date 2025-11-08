@@ -1,6 +1,6 @@
 /**
  * Create .env.development to override these values during development.
- * Create .env.production to override these values during production. 
+ * Create .env.production to override these values during production.
  */
 
 export default {

@@ -1,8 +1,8 @@
 import { Document, Types } from 'mongoose'
 
-export interface Book extends Document<Types.ObjectId> {
+export type Book = {
   id?: string
   title: string
   description: string
   isbn: string
-}
+} & Document<Types.ObjectId>

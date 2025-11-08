@@ -3,9 +3,7 @@ import bookRepository from './book.repository'
 import { Book } from 'src/common/types'
 
 class bookService {
-  constructor(
-    readonly repo: typeof bookRepository
-  ) {}
+  constructor(readonly repo: typeof bookRepository) {}
 
   async getAllBooks(): Promise<Book[]> {
     const books = await this.repo.findAllBooks()
@@ -22,14 +20,18 @@ class bookService {
     return book
   }
 
-  async createBook(data: { title: string; description: string; isbn: string }): Promise<Book> {
+  async createBook(data: {
+    title: string
+    description: string
+    isbn: string
+  }): Promise<Book> {
     const existingBook = await this.repo.findBookByIsbn(data.isbn)
 
     if (existingBook) {
       throw new CustomException('Book with this ISBN already exists')
     }
 
-    const newBook = await this.repo.createBook(data)
+    const newBook = await this.repo.createBook(data as Book)
     return newBook
   }
 
@@ -53,7 +55,7 @@ class bookService {
     if (!deleted) {
       throw new NotFoundException('Book not found')
     }
-    
+
     return deleted
   }
 }

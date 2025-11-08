@@ -12,7 +12,7 @@ export enum ErrorName {
 export class HttpException extends Error {
   status: number
   error: object
-  constructor(status: number, message: string, error?: {}) {
+  constructor(status: number, message: string, error?: unknown) {
     super(message)
     this.status = status
     this.error = error || {}
@@ -20,19 +20,19 @@ export class HttpException extends Error {
 }
 
 export class NotFoundException extends HttpException {
-  constructor(message: string = 'Not Found', error?: {}) {
+  constructor(message: string = 'Not Found', error?: unknown) {
     super(404, message, error)
   }
 }
 
 export class BadRequestException extends HttpException {
-  constructor(message: string = 'Bad Request', error?: {}) {
+  constructor(message: string = 'Bad Request', error?: unknown) {
     super(400, message, error)
   }
 }
 
 export class InternalServerException extends HttpException {
-  constructor(message: string = 'Internal Server Error', error?: {}) {
+  constructor(message: string = 'Internal Server Error', error?: unknown) {
     super(500, message, error)
   }
 }
@@ -40,7 +40,7 @@ export class InternalServerException extends HttpException {
 export class CustomException extends Error {
   error: object
   status: number
-  constructor(message: string, status?: number, error?: {}) {
+  constructor(message: string, status?: number, error?: unknown) {
     super(message)
     this.name = ErrorName.CUSTOM_EXCEPTION
     this.error = error || {}
