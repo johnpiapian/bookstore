@@ -1,6 +1,6 @@
 services:
   frontend:
-    image: registry.naulak.dev/bookstore/frontend:latest
+    image: docker.io/johnpiapian/bookstore:frontend-latest
     build: ./frontend
     ports:
       - 8080:3000
@@ -12,7 +12,7 @@ services:
       - backend
   
   backend:
-    image: registry.naulak.dev/bookstore/backend:latest
+    image: docker.io/johnpiapian/bookstore:backend-latest
     build: ./backend
     environment:
       - PORT=3000
