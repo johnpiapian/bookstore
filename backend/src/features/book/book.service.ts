@@ -31,7 +31,7 @@ class bookService {
       throw new CustomException('Book with this ISBN already exists')
     }
 
-    const newBook = await this.repo.createBook(data)
+    const newBook = await this.repo.createBook(data as Book)
     return newBook
   }
 
