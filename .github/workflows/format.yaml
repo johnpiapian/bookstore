@@ -2,6 +2,10 @@ name: check formatting
 
 on: [pull_request]
 
+defaults:
+  run:
+    working-directory: ./backend
+
 jobs:
   format:
     runs-on: ubuntu-latest

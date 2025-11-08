@@ -2,6 +2,10 @@ name: test codebase
 
 on: [pull_request]
 
+defaults:
+  run:
+    working-directory: ./backend
+
 jobs:
   test:
     runs-on: ${{ matrix.os }}
