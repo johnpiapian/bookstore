@@ -1,7 +1,12 @@
 import { NextFunction, Request, Response } from 'express'
 import { CustomException, HttpException } from './CustomException'
 
-export function errorHandler(error: Error, request: Request, response: Response, next: NextFunction) {
+export function errorHandler(
+  error: Error,
+  request: Request,
+  response: Response,
+  next: NextFunction
+) {
   console.error('Error occurred:', error)
 
   if (error instanceof HttpException) {

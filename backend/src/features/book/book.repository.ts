@@ -5,25 +5,23 @@ const bookSchema = new mongoose.Schema<Book>(
   {
     title: { type: String, required: true },
     description: { type: String, required: true },
-    isbn: { type: String, required: true, unique: true }
+    isbn: { type: String, required: true, unique: true },
   },
-  { 
+  {
     timestamps: true,
     toJSON: { virtuals: true },
-    toObject: { virtuals: true }
+    toObject: { virtuals: true },
   }
 )
 
-bookSchema.virtual('id').get(function(this: Book) {
+bookSchema.virtual('id').get(function (this: Book) {
   return this._id.toHexString()
 })
 
 const BookEntity = mongoose.model<Book>('book', bookSchema)
 
 class BookRepository {
-  constructor(
-    readonly BookEntity: mongoose.Model<Book>
-  ) { }
+  constructor(readonly BookEntity: mongoose.Model<Book>) {}
 
   async findAllBooks(): Promise<Book[]> {
     const books = await this.BookEntity.find().exec()
@@ -52,9 +50,10 @@ class BookRepository {
         $set: {
           title: bookData.title,
           description: bookData.description,
-          isbn: bookData.isbn
-        }
-      }).exec()
+          isbn: bookData.isbn,
+        },
+      }
+    ).exec()
 
     return result.modifiedCount > 0
   }

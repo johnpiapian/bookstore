@@ -18,11 +18,18 @@ describe('app routes', () => {
         if (!layer) return false
         if (layer.path === '/users') return true
         if (layer.route && layer.route.path === '/users') return true
-        if (layer.regexp && layer.regexp.source && layer.regexp.source.includes('\\/users')) return true
+        if (
+          layer.regexp &&
+          layer.regexp.source &&
+          layer.regexp.source.includes('\\/users')
+        )
+          return true
         // mounted routers often have a handle name 'router'
         if (layer.name === 'router' && layer.handle && layer.handle.stack) {
           // verify the mounted router contains known user routes like '/'
-          return layer.handle.stack.some((l: any) => l.route && l.route.path === '/')
+          return layer.handle.stack.some(
+            (l: any) => l.route && l.route.path === '/'
+          )
         }
         return false
       } catch (e) {

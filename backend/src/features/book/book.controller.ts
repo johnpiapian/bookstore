@@ -39,13 +39,18 @@ router.put('/', async (req: Request, res: Response) => {
     return
   }
 
-  const updatedBook = await bookService.updateBook({ id, title, description, isbn })
+  const updatedBook = await bookService.updateBook({
+    id,
+    title,
+    description,
+    isbn,
+  })
   return res.status(200).json(updatedBook)
 })
 
 router.delete('/:id', async (req: Request, res: Response) => {
   const { id } = req.params
-  
+
   if (!id) {
     new CustomException('Book ID is required')
     return
