@@ -21,7 +21,7 @@
     "dev": "nodemon --watch src --watch test --ext ts,json --exec 'npm run bundle && NODE_ENV=development npm run start'",
     "debug": "npm run bundle && node --enable-source-maps --inspect-brk ./dist/index.js",
     "debug:test": "node --inspect-brk ./node_modules/.bin/jest --runInBand .",
-    "start": "node --env-file=config/.env.${NODE_ENV:-production} --enable-source-maps ./dist/index.js",
+    "start": "node --enable-source-maps ./dist/index.js",
     "test": "jest --runInBand ."
   },
   "devDependencies": {
@@ -45,6 +45,7 @@
     "typescript": "5.9.3"
   },
   "dependencies": {
+    "dotenv": "^17.2.3",
     "express": "^5.1.0",
     "mongoose": "^8.19.2"
   }
