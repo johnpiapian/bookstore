@@ -21,7 +21,7 @@ router.get('/:id', async (req: Request, res: Response) => {
 })
 
 router.post('/', async (req: Request, res: Response) => {
-  if (!req.body || !req.body.title || !req.body.description || !req.body.isbn) {
+  if (!req.body?.title || !req.body?.description || !req.body?.isbn) {
     new CustomException('Invalid book data')
     return
   }
