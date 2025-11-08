@@ -7,8 +7,18 @@ const bookSchema = new mongoose.Schema<Book>(
     description: { type: String, required: true },
     isbn: { type: String, required: true, unique: true }
   },
-  { timestamps: true }
+  { 
+    timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true }
+  }
 )
+
+bookSchema.virtual('id').get(function(this: Book) {
+  return this._id.toHexString()
+})
+
+const BookEntity = mongoose.model<Book>('book', bookSchema)
 
 class BookRepository {
   constructor(
@@ -46,8 +56,6 @@ class BookRepository {
         }
       }).exec()
 
-    console.log('Update result:', result)
-
     return result.modifiedCount > 0
   }
 
@@ -57,6 +65,5 @@ class BookRepository {
   }
 }
 
-const BookEntity = mongoose.model<Book>('book', bookSchema)
 const bookRepository = new BookRepository(BookEntity)
 export default bookRepository
