@@ -1,5 +1,6 @@
 services:
   frontend:
+    platform: linux/amd64
     image: docker.io/johnpiapian/bookstore:frontend-latest
     build: ./frontend
     ports:
@@ -12,6 +13,7 @@ services:
       - backend
   
   backend:
+    platform: linux/amd64
     image: docker.io/johnpiapian/bookstore:backend-latest
     build: ./backend
     environment:
