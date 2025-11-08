@@ -15,7 +15,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Log in to Docker Registry
+      - name: Bypass Cloudflare for GitHub Action
+        uses: xiaotianxt/bypass-cloudflare-for-github-action@v1.1.1
+        with:
+          cf_zone_id: ${{ secrets.CF_ZONE_ID }}
+          cf_api_token: ${{ secrets.CF_API_TOKEN }}
+      - name: Log in to Container Registry
         uses: docker/login-action@v3
         with:
           registry: registry.naulak.dev
