@@ -36,8 +36,6 @@ DEL /api/books/:id
 - Provider: Atlas MongoDB
 - Database: MongoDB
 
-![alt text](bookstore.png)
-
 ## How to run the project locally
 You have the option run just the frontend and use in-memory data for testing purposes, or run both the frontend and backend with a valid connection to a MongoDB database.
 
