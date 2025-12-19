@@ -1,5 +1,7 @@
+const BACKEND_BASE_URL = process.env.BACKEND_BASE_URL || 'http://localhost:3000'
+
 export async function GET() {
-  const response = await fetch(`${process.env.BACKEND_BASE_URL}/api/books`, {
+  const response = await fetch(`${BACKEND_BASE_URL}/api/books`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -14,7 +16,7 @@ export async function GET() {
 export async function POST(request: Request) {
   const { title, description, isbn } = await request.json();
 
-  const response = await fetch(`${process.env.BACKEND_BASE_URL}/api/books`, {
+  const response = await fetch(`${BACKEND_BASE_URL}/api/books`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -30,7 +32,7 @@ export async function POST(request: Request) {
 export async function PUT(request: Request) {
   const { id, title, description, isbn } = await request.json();
 
-  const response = await fetch(`${process.env.BACKEND_BASE_URL}/api/books`, {
+  const response = await fetch(`${BACKEND_BASE_URL}/api/books`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -46,7 +48,7 @@ export async function PUT(request: Request) {
 export async function DELETE(request: Request) {
   const { id } = await request.json();
 
-  const response = await fetch(`${process.env.BACKEND_BASE_URL}/api/books/${encodeURI(id)}`, {
+  const response = await fetch(`${BACKEND_BASE_URL}/api/books/${encodeURI(id)}`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',

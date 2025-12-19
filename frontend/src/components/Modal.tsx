@@ -9,7 +9,7 @@ export default function Modal({ isOpen, onClose, children }: ModalProps) {
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50" data-testid="modal">
-      <div className="bg-white dark:bg-gray-800 p-6 rounded shadow-lg w-full max-w-lg">
+      <div className="bg-white dark:bg-gray-800 p-6 rounded shadow-lg w-full max-w-lg pb-10">
         <div className="flex justify-end">
           <button
             onClick={onClose}

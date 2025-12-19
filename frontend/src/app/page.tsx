@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useCallback, useState } from 'react'
 
 import { Book } from '@/lib/types'
 import BookItem from '@/components/BookItem'
@@ -17,22 +17,25 @@ export default function HomePage() {
   const [type, setType] = useState<BookFormType>(BookFormType.ADD)
   const [selectedBook, setSelectedBook] = useState<Book | null>(null)
 
-  const fetchBooks = useMemo(() => {
-    return async () => {
-      setIsLoading(true)
+  const fetchBooks = useCallback(async () => {
+    setIsLoading(true)
+    try {
       const response = await fetch('/api/books')
       if (!response.ok) {
         throw new Error('Network response was not ok')
       }
       const data: Book[] = await response.json()
       setBooks(data)
+    } catch (error) {
+      console.error('Error fetching books:', error)
+    } finally {
       setIsLoading(false)
     }
   }, [])
 
-  const addBook = useMemo(() => {
-    return async (newBook: Book) => {
-      setIsLoading(true)
+  const addBook = useCallback(async (newBook: Book) => {
+    setIsLoading(true)
+    try {
       const response = await fetch('/api/books', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -45,13 +48,17 @@ export default function HomePage() {
 
       const createdBook: Book = await response.json()
       setBooks((prevBooks) => [...prevBooks, createdBook])
+    } catch (error) {
+      console.error('Error adding book:', error)
+      throw error
+    } finally {
       setIsLoading(false)
     }
   }, [])
 
-  const updateBook = useMemo(() => {
-    return async (updatedBook: Book) => {
-      setIsLoading(true)
+  const updateBook = useCallback(async (updatedBook: Book) => {
+    setIsLoading(true)
+    try {
       const response = await fetch('/api/books', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
@@ -65,13 +72,17 @@ export default function HomePage() {
       setBooks((prevBooks) =>
         prevBooks.map((book) => (book.id === updatedBook.id ? updatedBook : book))
       )
+    } catch (error) {
+      console.error('Error updating book:', error)
+      throw error
+    } finally {
       setIsLoading(false)
     }
   }, [])
 
-  const deleteBook = useMemo(() => {
-    return async (id: string) => {
-      setIsLoading(true)
+  const deleteBook = useCallback(async (id: string) => {
+    setIsLoading(true)
+    try {
       const response = await fetch('/api/books', {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
@@ -83,13 +94,17 @@ export default function HomePage() {
       }
 
       setBooks((prevBooks) => prevBooks.filter((book) => book.id !== id))
+    } catch (error) {
+      console.error('Error deleting book:', error)
+      throw error
+    } finally {
       setIsLoading(false)
     }
   }, [])
 
   useEffect(() => {
     fetchBooks().catch((error) => console.error('Error fetching books:', error))
-  }, [])
+  }, [fetchBooks])
 
   const handleOnAdd = () => {
     setType(BookFormType.ADD)
@@ -106,6 +121,27 @@ export default function HomePage() {
   const handleOnDelete = async (id: string) => {
     if (!confirm('Are you sure you want to delete this book?')) return
     await deleteBook(id).catch((error) => console.error('Error deleting book:', error))
+  }
+
+  const handleOnSubmit = async (book: Book) => {
+    setSuccessfulMessage(null)
+    setErrorMessage(null)
+    try {
+      if (type === BookFormType.ADD) {
+        await addBook(book)
+        setSuccessfulMessage('Book added successfully!')
+      } else if (type === BookFormType.EDIT) {
+        await updateBook(book)
+        setSuccessfulMessage('Book updated successfully!')
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error)
+      setErrorMessage('Error submitting form.')
+    }
+
+    setTimeout(() => {
+      onModalClose()
+    }, 1500)
   }
 
   const onModalClose = () => {
@@ -154,26 +190,7 @@ export default function HomePage() {
             type={type}
             prefilledData={selectedBook ?? undefined}
             appState={{ isLoading }}
-            onSubmit={async (book) => {
-              setSuccessfulMessage(null)
-              setErrorMessage(null)
-              try {
-                if (type === BookFormType.ADD) {
-                  await addBook(book)
-                  setSuccessfulMessage('Book added successfully!')
-                } else if (type === BookFormType.EDIT) {
-                  await updateBook(book)
-                  setSuccessfulMessage('Book updated successfully!')
-                }
-              } catch (error) {
-                console.error('Error submitting form:', error)
-                setErrorMessage('Error submitting form.')
-              }
-
-              setTimeout(() => {
-                onModalClose()
-              }, 2000)
-            }}
+            onSubmit={handleOnSubmit}
           />
         </section>
       </Modal>

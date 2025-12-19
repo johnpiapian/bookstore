@@ -27,8 +27,8 @@ router.post('/', async (req: Request, res: Response) => {
   }
 
   const { title, description, isbn } = req.body
-  await bookService.createBook({ title, description, isbn })
-  return res.status(201).json({ message: 'Book created successfully' })
+  const createdBook = await bookService.createBook({ title, description, isbn })
+  return res.status(201).json(createdBook)
 })
 
 router.put('/', async (req: Request, res: Response) => {
