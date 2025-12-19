@@ -5,7 +5,7 @@ import Form from 'next/form'
 
 export type BookFormProps = {
   type: BookFormType
-  prefillData?: Book
+  prefilledData?: Book
   appState: {
     isLoading: boolean
   }
@@ -23,30 +23,30 @@ type DisplayInfo = {
   loadingButtonText: string
 }
 
-const typeToDisplayInfo: Map<BookFormType, DisplayInfo> = new Map([
-  [BookFormType.ADD, { title: 'Add a New Book', buttonText: 'Add Book', loadingButtonText: 'Adding Book...' }],
-  [BookFormType.EDIT, { title: 'Edit Book', buttonText: 'Save Changes', loadingButtonText: 'Saving Changes...' }],
-])
+const bookFormTypeToDisplayInfoMap: Record<BookFormType, DisplayInfo> = {
+  [BookFormType.ADD]: { title: 'Add a New Book', buttonText: 'Add Book', loadingButtonText: 'Adding Book...' },
+  [BookFormType.EDIT]: { title: 'Edit Book', buttonText: 'Save Changes', loadingButtonText: 'Saving Changes...' },
+}
 
 function getDisplayInfo(type: BookFormType) {
-  return typeToDisplayInfo.get(type) || { title: '', buttonText: '', loadingButtonText: '' }
+  return bookFormTypeToDisplayInfoMap[type] || { title: '', buttonText: '', loadingButtonText: '' }
 }
 
 export default function BookForm(props: BookFormProps) {
-  const { type, prefillData, appState, onSubmit } = props
+  const { type, prefilledData, appState, onSubmit } = props
 
-  const [prevPrefillData, setPrevPrefillData] = useState<Book | undefined>(prefillData)
-  const [id, setId] = useState(prefillData?.id || '')
-  const [title, setTitle] = useState(prefillData?.title || '')
-  const [description, setDescription] = useState(prefillData?.description || '')
-  const [isbn, setIsbn] = useState(prefillData?.isbn || '')
+  const [prevPrefilledData, setPrevPrefilledData] = useState<Book | undefined>(prefilledData)
+  const [id, setId] = useState(prefilledData?.id || '')
+  const [title, setTitle] = useState(prefilledData?.title || '')
+  const [description, setDescription] = useState(prefilledData?.description || '')
+  const [isbn, setIsbn] = useState(prefilledData?.isbn || '')
 
-  if (prefillData && prefillData !== prevPrefillData) {
-    setPrevPrefillData(prefillData)
-    setId(prefillData.id)
-    setTitle(prefillData.title)
-    setDescription(prefillData.description)
-    setIsbn(prefillData.isbn)
+  if (prefilledData && prefilledData !== prevPrefilledData) {
+    setPrevPrefilledData(prefilledData)
+    setId(prefilledData.id)
+    setTitle(prefilledData.title)
+    setDescription(prefilledData.description)
+    setIsbn(prefilledData.isbn)
   }
 
   const clearForm = () => {
