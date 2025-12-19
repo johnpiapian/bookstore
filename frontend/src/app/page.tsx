@@ -111,6 +111,8 @@ export default function HomePage() {
   const onModalClose = () => {
     setIsModalOpen(false)
     setSelectedBook(null)
+    setSuccessfulMessage(null)
+    setErrorMessage(null)
   }
 
   return (
@@ -169,9 +171,8 @@ export default function HomePage() {
               }
 
               setTimeout(() => {
-                setIsModalOpen(false)
-                setSelectedBook(null)
-              }, 1000)
+                onModalClose()
+              }, 2000)
             }}
           />
         </section>
