@@ -6,5 +6,3 @@ export type Book = {
   description: string
   isbn: string
 } & Document<Types.ObjectId>
-
-export type BookData = Pick<Book, 'title' | 'description' | 'isbn'>

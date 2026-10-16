@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { Book, BookData } from '../../common/types'
+import { Book } from '../../common/types'
 
 const bookSchema = new mongoose.Schema<Book>(
   {
@@ -38,7 +38,7 @@ class BookRepository {
     return book
   }
 
-  async createBook(bookData: BookData): Promise<Book> {
+  async createBook(bookData: Book): Promise<Book> {
     const newBook = new this.BookEntity(bookData)
     return await newBook.save()
   }

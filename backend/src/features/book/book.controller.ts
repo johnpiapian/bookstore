@@ -17,7 +17,7 @@ router.get('/:id', async (req: Request, res: Response) => {
     return
   }
 
-  const book = await bookService.getBookById(String(id))
+  const book = await bookService.getBookById(id)
   return res.status(200).json(book)
 })
 
@@ -57,7 +57,7 @@ router.delete('/:id', async (req: Request, res: Response) => {
     return
   }
 
-  await bookService.deleteBook(String(id))
+  await bookService.deleteBook(id)
   return res.status(200).json({ message: 'Book deleted successfully' })
 })
 

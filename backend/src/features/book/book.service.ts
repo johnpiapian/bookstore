@@ -1,6 +1,6 @@
 import { CustomException, NotFoundException } from 'src/common/CustomException'
 import bookRepository from './book.repository'
-import { Book, BookData } from 'src/common/types'
+import { Book } from 'src/common/types'
 
 class bookService {
   constructor(readonly repo: typeof bookRepository) {}
@@ -20,14 +20,18 @@ class bookService {
     return book
   }
 
-  async createBook(data: BookData): Promise<Book> {
+  async createBook(data: {
+    title: string
+    description: string
+    isbn: string
+  }): Promise<Book> {
     const existingBook = await this.repo.findBookByIsbn(data.isbn)
 
     if (existingBook) {
       throw new CustomException('Book with this ISBN already exists')
     }
 
-    const newBook = await this.repo.createBook(data)
+    const newBook = await this.repo.createBook(data as Book)
     return newBook
   }
 
