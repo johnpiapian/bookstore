@@ -12,7 +12,7 @@ router.get('/', async (_: Request, res: Response) => {
 router.get('/:id', async (req: Request, res: Response) => {
   const { id } = req.params
 
-  if (!id || id.trim() === '') {
+  if (!id || typeof id !== 'string' || id.trim() === '') {
     new CustomException('Book ID is required')
     return
   }
