@@ -11,12 +11,13 @@ router.get('/', async (_: Request, res: Response) => {
 
 router.get('/:id', async (req: Request, res: Response) => {
   const { id } = req.params
-  if (!id) {
+
+  if (!id || id.trim() === '') {
     new CustomException('Book ID is required')
     return
   }
 
-  const book = await bookService.getBookById(id)
+  const book = await bookService.getBookById(String(id))
   return res.status(200).json(book)
 })
 
@@ -51,12 +52,12 @@ router.put('/', async (req: Request, res: Response) => {
 router.delete('/:id', async (req: Request, res: Response) => {
   const { id } = req.params
 
-  if (!id) {
+  if (!id || typeof id !== 'string' || id.trim() === '') {
     new CustomException('Book ID is required')
     return
   }
 
-  await bookService.deleteBook(id)
+  await bookService.deleteBook(String(id))
   return res.status(200).json({ message: 'Book deleted successfully' })
 })
 
