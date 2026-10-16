@@ -1,7 +1,7 @@
 services:
   frontend:
     platform: linux/amd64
-    image: docker.io/johnpiapian/bookstore:frontend-latest
+    image: ghcr.io/johnpiapian/bookstore-frontend:latest
     build: ./frontend
     ports:
       - 8080:3000
@@ -14,7 +14,7 @@ services:
   
   backend:
     platform: linux/amd64
-    image: docker.io/johnpiapian/bookstore:backend-latest
+    image: ghcr.io/johnpiapian/bookstore-backend:latest
     build: ./backend
     environment:
       - PORT=3000
